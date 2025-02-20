@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form id="testForm"
+      method="post">
+    <button type="submit">submit</button>
+</form>
+
+<script defer>
+    const testUrl = "https://ccore.newebpay.com/MPG/mpg_gateway"
+    const releaseUrl = "https://core.newebpay.com/MPG/mpg_gateway"
+
+    const testForm = document.getElementById('testForm')
+
+    const setup = async () => {
+        const data = await fetch("http://localhost:8080/mpg").then(res => res.json())
+
+        for (const key in data) {
+            const value = data[key]
+            const input = document.createElement('input')
+            input.name = key
+            input.value = value
+            // input.type = 'hidden'
+            testForm.appendChild(input)
+        }
+
+        testForm.action = releaseUrl
+    }
+
+    setup()
+
+</script>
+</body>
+</html>
