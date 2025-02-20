@@ -2,9 +2,6 @@
 
 package ebpay
 
-type TradeSha struct {
-}
-
 type MPGRequest struct {
 	MerchantID string
 
