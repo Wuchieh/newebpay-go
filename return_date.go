@@ -1,9 +1,9 @@
 package ebpay
 
-// ResultCredit 信用卡支付回傳參數
+// CreditResult 信用卡支付回傳參數
 //
 //	一次付清、分期、紅利、DCC、Apple Pay、Google Pay、Samaung Pay、國民旅遊卡、銀聯、AE
-type ResultCredit struct {
+type CreditResult struct {
 	// AuthBank 收單金融機構
 	AuthBank string `json:"AuthBank"`
 
@@ -279,6 +279,61 @@ type Result struct {
 
 	// PayAmt 實際付款金額
 	PayAmt int `json:"PayAmt"`
+}
+
+func (r *Result) CreditResult() CreditResult {
+	return CreditResult{
+		AuthBank:        r.AuthBank,
+		CardBank:        r.CardBank,
+		RespondCode:     r.RespondCode,
+		Auth:            r.Auth,
+		Card6No:         r.Card6No,
+		Card4No:         r.Card4No,
+		Inst:            r.Inst,
+		InstFirst:       r.InstFirst,
+		InstEach:        r.InstEach,
+		ECI:             r.ECI,
+		TokenUseStatus:  r.TokenUseStatus,
+		RedAmt:          r.RedAmt,
+		PaymentMethod:   r.PaymentMethod,
+		DCCAmt:          r.DCCAmt,
+		DCCRate:         r.DCCRate,
+		DCCMarkup:       r.DCCMarkup,
+		DCCCurrency:     r.DCCCurrency,
+		DCCCurrencyCode: r.DCCCurrencyCode,
+	}
+}
+
+func (r *Result) ATMResult() ATMResult {
+	return ATMResult{
+		PayBankCode:       r.PayBankCode,
+		PayerAccount5Code: r.PayerAccount5Code,
+	}
+}
+
+func (r *Result) ConvenienceStoreResult() ConvenienceStoreResult {
+	return ConvenienceStoreResult{
+		CodeNo:    r.CodeNo,
+		StoreType: r.StoreType,
+		StoreID:   r.StoreID,
+	}
+}
+
+func (r *Result) ConvenienceStoreBarcodeResult() ConvenienceStoreBarcodeResult {
+	return ConvenienceStoreBarcodeResult{
+		Barcode1:   r.Barcode1,
+		Barcode2:   r.Barcode2,
+		Barcode3:   r.Barcode3,
+		RepayTimes: r.RepayTimes,
+		PayStore:   r.PayStore,
+	}
+}
+
+func (r *Result) CrossBorder() CrossBorder {
+	return CrossBorder{
+		ChannelID: r.ChannelID,
+		ChannelNo: r.ChannelNo,
+	}
 }
 
 type ReturnDate struct {
