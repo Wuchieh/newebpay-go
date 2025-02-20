@@ -19,6 +19,22 @@ type Merchant struct {
 	aes *aesgo.AESOptions
 }
 
+func (m *Merchant) GetKey() string {
+	return m.key
+}
+
+func (m *Merchant) GetIv() string {
+	return m.iv
+}
+
+func (m *Merchant) GetMid() string {
+	return m.mid
+}
+
+func (m *Merchant) GetAes() aesgo.AESOptions {
+	return *m.aes
+}
+
 func NewMerchant(HashKey string, HashIV string, MerchantID string) *Merchant {
 	return &Merchant{key: HashKey, iv: HashIV, mid: MerchantID}
 }
