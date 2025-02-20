@@ -1,4 +1,4 @@
-module github.com/Wuchieh/newebpay-go
+module github.com/wuchieh/newebpay-go
 
 go 1.23.1
 
