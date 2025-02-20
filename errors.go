@@ -10,4 +10,6 @@ var (
 	ErrOrderDetailItemOrderTypeExist = errors.New("ItemType is not exist")
 
 	ErrMPGAesEncryption = errors.New("aes encryption error")
+
+	ErrTradeShaCheckFail = errors.New("trade sha check error fail")
 )

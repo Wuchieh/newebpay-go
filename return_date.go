@@ -1,5 +1,12 @@
 package ebpay
 
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/duke-git/lancet/v2/cryptor"
+	"strings"
+)
+
 // CreditResult 信用卡支付回傳參數
 //
 //	一次付清、分期、紅利、DCC、Apple Pay、Google Pay、Samaung Pay、國民旅遊卡、銀聯、AE
@@ -336,8 +343,71 @@ func (r *Result) CrossBorder() CrossBorder {
 	}
 }
 
-type ReturnDate struct {
+type ReturnDateTradeInfo struct {
 	Status  string `json:"Status"`
 	Message string `json:"Message"`
 	Result  Result `json:"Result"`
+}
+
+type ReturnDate struct {
+	// Status 回傳狀態
+	Status string
+
+	// MerchantID 回傳訊息
+	MerchantID string
+
+	// TradeInfo 交易資訊 AES 加密
+	TradeInfo string
+
+	// TradeSha 交易資料 SHA256 加密
+	TradeSha string
+
+	// Version 串接程式版本
+	Version string
+
+	// EncryptType 加密模式
+	EncryptType string
+}
+
+func (r *ReturnDate) GetTradeInfo(m *Merchant) (*ReturnDateTradeInfo, error) {
+	var result ReturnDateTradeInfo
+	decryptionData, err := m.aes.Decryption(r.TradeInfo)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal([]byte(decryptionData), &result); err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+}
+
+func (r *ReturnDate) check(m *Merchant) bool {
+	hashs := fmt.Sprintf("HashKey=%s&%s&HashIV=%s", m.key, r.TradeInfo, m.iv)
+	return strings.ToUpper(cryptor.Sha256(hashs)) == r.TradeSha
+}
+
+type returnDate struct {
+	Status      string `schema:"Status"`
+	MerchantID  string `schema:"MerchantID"`
+	TradeInfo   string `schema:"TradeInfo"`
+	TradeSha    string `schema:"TradeSha"`
+	Version     string `schema:"Version"`
+	EncryptType string `schema:"EncryptType"`
+}
+
+func (r *returnDate) ReturnDate() *ReturnDate {
+	return &ReturnDate{
+		Status:      r.Status,
+		MerchantID:  r.MerchantID,
+		TradeInfo:   r.TradeInfo,
+		TradeSha:    r.TradeSha,
+		Version:     r.Version,
+		EncryptType: r.EncryptType,
+	}
+}
+
+func (r *returnDate) check(m *Merchant) bool {
+	return r.ReturnDate().check(m)
 }
