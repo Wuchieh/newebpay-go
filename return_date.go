@@ -371,6 +371,7 @@ type ReturnDate struct {
 
 func (r *ReturnDate) GetTradeInfo(m *Merchant) (*ReturnDateTradeInfo, error) {
 	var result ReturnDateTradeInfo
+	m.getAes()
 	decryptionData, err := m.aes.Decryption(r.TradeInfo)
 	if err != nil {
 		return nil, err
