@@ -24,10 +24,10 @@ type CreditResult struct {
 	Auth string `json:"Auth"`
 
 	// Card6No 卡號前六碼
-	Card6No int `json:"Card6No"`
+	Card6No string `json:"Card6No"`
 
 	// Card4No 卡號末四碼
-	Card4No int `json:"Card4No"`
+	Card4No string `json:"Card4No"`
 
 	// Inst 分期-期別 信用卡分期交易期別。
 	Inst int `json:"Inst"`
@@ -181,10 +181,10 @@ type Result struct {
 	Auth string `json:"Auth"`
 
 	// Card6No 卡號前六碼
-	Card6No int `json:"Card6No"`
+	Card6No string `json:"Card6No"`
 
 	// Card4No 卡號末四碼
-	Card4No int `json:"Card4No"`
+	Card4No string `json:"Card4No"`
 
 	// Inst 分期-期別 信用卡分期交易期別。
 	Inst int `json:"Inst"`
@@ -199,7 +199,7 @@ type Result struct {
 	ECI string `json:"ECI"`
 
 	// TokenUseStatus 信用卡快速結帳使用狀態
-	TokenUseStatus int
+	TokenUseStatus int `json:"TokenUseStatus"`
 
 	// RedAmt 紅利折抵後實際金額
 	RedAmt int `json:"RedAmt"`
