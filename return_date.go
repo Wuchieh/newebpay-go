@@ -81,7 +81,7 @@ type ConvenienceStoreResult struct {
 	CodeNo string `json:"CodeNo"`
 
 	// StoreType 繳費門市類別 Int(1)
-	StoreType int `json:"StoreType"`
+	StoreType StoreType `json:"StoreType"`
 
 	// StoreID 繳費門市代號 String(10) 繳費門市代號 (全家回傳門市中文名稱)
 	StoreID string `json:"StoreID"`
@@ -134,6 +134,13 @@ type Logistics struct {
 	LgsNo string
 	// LgsType 物流型態
 	LgsType string
+}
+
+type StoreType string
+
+func (s *StoreType) UnmarshalJSON(bytes []byte) error {
+	*s = StoreType(strings.Trim(string(bytes), "\""))
+	return nil
 }
 
 type Result struct {
@@ -236,7 +243,7 @@ type Result struct {
 	CodeNo string `json:"CodeNo"`
 
 	// StoreType 繳費門市類別 Int(1)
-	StoreType int `json:"StoreType"`
+	StoreType StoreType `json:"StoreType"`
 
 	// StoreID 繳費門市代號 String(10) 繳費門市代號 (全家回傳門市中文名稱)
 	StoreID string `json:"StoreID"`
